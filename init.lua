@@ -109,6 +109,35 @@ local config = {
           require("catppuccin").setup {}
         end,
       },
+      {
+        "ur4ltz/surround.nvim",
+        config = function()
+          require"surround".setup {
+            mappings_style = "surround",
+            quotes = {"'", '"', "`"}
+          }
+        end
+      },
+      { 'echasnovski/mini.nvim', branch = 'stable' },
+        {'lewis6991/hover.nvim', config = function()
+          require('hover').setup{
+            init = function()
+              -- Require providers
+              require('hover.providers.lsp')
+              -- require('hover.providers.gh')
+              -- require('hover.providers.man')
+              -- require('hover.providers.dictionary')
+            end,
+            preview_opts = {
+              border = nil
+            },
+            title = true
+          }
+
+          -- Setup keymaps
+          vim.keymap.set('n',  'gh', require('hover').hover       , { desc='hover.nvim'         })
+          vim.keymap.set('n', 'gH', require('hover').hover_select, { desc='hover.nvim (select)' })
+        end}
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
