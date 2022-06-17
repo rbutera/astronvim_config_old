@@ -119,7 +119,8 @@ local config = {
         end
       },
       { 'echasnovski/mini.nvim', branch = 'stable' },
-        {'lewis6991/hover.nvim', config = function()
+        {
+          'lewis6991/hover.nvim', config = function()
           require('hover').setup{
             init = function()
               -- Require providers
@@ -137,7 +138,24 @@ local config = {
           -- Setup keymaps
           vim.keymap.set('n',  'gh', require('hover').hover       , { desc='hover.nvim'         })
           vim.keymap.set('n', 'gH', require('hover').hover_select, { desc='hover.nvim (select)' })
-        end}
+          end
+        },
+        {
+          "folke/trouble.nvim",
+          requires = "kyazdani42/nvim-web-devicons",
+          config = function()
+            require("trouble").setup {}
+          end
+        },
+        {
+          "tpope/vim-repeat"
+        },
+        {
+          'folke/lsp-colors.nvim'
+        },
+        {
+          "ggandor/lightspeed.nvim"
+        },
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
@@ -148,6 +166,17 @@ local config = {
       config.sources = {
         -- Set a formatter
         null_ls.builtins.formatting.rufo,
+        null_ls.builtins.formatting.autopep8,
+        null_ls.builtins.formatting.eslint_d,
+        null_ls.builtins.formatting.markdownlint,
+        null_ls.builtins.formatting.prettierd,
+        null_ls.builtins.formatting.terrafmt,
+        null_ls.builtins.formatting.terraform_fmt,
+        null_ls.builtins.formatting.gofumpt,
+        null_ls.builtins.formatting.lua_format,
+
+
+
         -- Set a linter
         null_ls.builtins.diagnostics.rubocop,
       }
