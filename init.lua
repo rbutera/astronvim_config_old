@@ -1,5 +1,4 @@
 local config = {
-
   header = {
     " ",
     " ",
@@ -12,9 +11,8 @@ local config = {
     "    ██   ████   ████   ██ ██      ██",
     " ",
     " ",
-    " ",
+    " "
   },
-
   -- Configure AstroNvim updates
   updater = {
     remote = "origin", -- remote to use
@@ -24,42 +22,40 @@ local config = {
     commit = nil, -- commit hash (NIGHTLY ONLY)
     pin_plugins = true, -- true, false, or a string for a specific AstroNvim snapshot to use (true will only track the current version if channel is "stable")
     skip_prompts = false, -- skip prompts about breaking changes
-    show_changelog = true, -- show the changelog after performing an update
+    show_changelog = true -- show the changelog after performing an update
     -- remotes = { -- easily add new remotes to track
     --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
     --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
     --   ["remote3"] = "github_user", -- GitHub user assume AstroNvim fork
     -- },
   },
-
   -- Set colorscheme
   colorscheme = "catppuccin",
-
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
-      relativenumber = true, -- sets vim.opt.relativenumber
+      relativenumber = true -- sets vim.opt.relativenumber
     },
     g = {
-      mapleader = " ", -- sets vim.g.mapleader
-    },
+      mapleader = " " -- sets vim.g.mapleader
+    }
   },
-
   -- Default theme configuration
   default_theme = {
-    diagnostics_style = { italic = true },
+    diagnostics_style = {italic = true},
     -- Modify the color table
     colors = {
-      fg = "#abb2bf",
+      fg = "#abb2bf"
     },
     -- Modify the highlight groups
     highlights = function(highlights)
       local C = require "default_theme.colors"
 
-      highlights.Normal = { fg = C.fg, bg = C.bg }
+      highlights.Normal = {fg = C.fg, bg = C.bg}
       return highlights
     end,
-    plugins = { -- enable or disable extra plugin highlighting
+    plugins = {
+      -- enable or disable extra plugin highlighting
       aerial = true,
       beacon = false,
       bufferline = true,
@@ -76,16 +72,14 @@ local config = {
       symbols_outline = false,
       telescope = true,
       vimwiki = false,
-      ["which-key"] = true,
-    },
+      ["which-key"] = true
+    }
   },
-
   -- Disable AstroNvim ui features
   ui = {
     nui_input = true,
-    telescope_select = true,
+    telescope_select = true
   },
-
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"
@@ -107,24 +101,25 @@ local config = {
         as = "catppuccin",
         config = function()
           require("catppuccin").setup {}
-        end,
+        end
       },
       {
         "ur4ltz/surround.nvim",
         config = function()
-          require"surround".setup {
+          require "surround".setup {
             mappings_style = "surround",
             quotes = {"'", '"', "`"}
           }
         end
       },
-      { 'echasnovski/mini.nvim', branch = 'stable' },
-        {
-          'lewis6991/hover.nvim', config = function()
-          require('hover').setup{
+      {"echasnovski/mini.nvim", branch = "stable"},
+      {
+        "lewis6991/hover.nvim",
+        config = function()
+          require("hover").setup {
             init = function()
               -- Require providers
-              require('hover.providers.lsp')
+              require("hover.providers.lsp")
               -- require('hover.providers.gh')
               -- require('hover.providers.man')
               -- require('hover.providers.dictionary')
@@ -136,26 +131,26 @@ local config = {
           }
 
           -- Setup keymaps
-          vim.keymap.set('n',  'gh', require('hover').hover       , { desc='hover.nvim'         })
-          vim.keymap.set('n', 'gH', require('hover').hover_select, { desc='hover.nvim (select)' })
-          end
-        },
-        {
-          "folke/trouble.nvim",
-          requires = "kyazdani42/nvim-web-devicons",
-          config = function()
-            require("trouble").setup {}
-          end
-        },
-        {
-          "tpope/vim-repeat"
-        },
-        {
-          'folke/lsp-colors.nvim'
-        },
-        {
-          "ggandor/lightspeed.nvim"
-        },
+          vim.keymap.set("n", "gh", require("hover").hover, {desc = "hover.nvim"})
+          vim.keymap.set("n", "gH", require("hover").hover_select, {desc = "hover.nvim (select)"})
+        end
+      },
+      {
+        "folke/trouble.nvim",
+        requires = "kyazdani42/nvim-web-devicons",
+        config = function()
+          require("trouble").setup {}
+        end
+      },
+      {
+        "tpope/vim-repeat"
+      },
+      {
+        "folke/lsp-colors.nvim"
+      },
+      {
+        "ggandor/lightspeed.nvim"
+      }
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
@@ -165,7 +160,7 @@ local config = {
       -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
       config.sources = {
         -- Set a formatter
-        null_ls.builtins.formatting.rufo,
+        -- null_ls.builtins.formatting.rufo,
         null_ls.builtins.formatting.autopep8,
         null_ls.builtins.formatting.eslint_d,
         null_ls.builtins.formatting.markdownlint,
@@ -173,47 +168,46 @@ local config = {
         null_ls.builtins.formatting.terrafmt,
         null_ls.builtins.formatting.terraform_fmt,
         null_ls.builtins.formatting.gofumpt,
-        null_ls.builtins.formatting.lua_format,
-
-
+        null_ls.builtins.formatting.lua_format
 
         -- Set a linter
-        null_ls.builtins.diagnostics.rubocop,
+        -- null_ls.builtins.diagnostics.rubocop,
       }
       -- set up null-ls's on_attach function
       config.on_attach = function(client)
         -- NOTE: You can remove this on attach function to disable format on save
         if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            desc = "Auto format before save",
-            pattern = "<buffer>",
-            callback = vim.lsp.buf.formatting_sync,
-          })
+          vim.api.nvim_create_autocmd(
+            "BufWritePre",
+            {
+              desc = "Auto format before save",
+              pattern = "<buffer>",
+              callback = vim.lsp.buf.formatting_sync
+            }
+          )
         end
       end
       return config -- return final config table
     end,
     treesitter = {
-      ensure_installed = { "lua" },
+      ensure_installed = {"lua"}
     },
     ["nvim-lsp-installer"] = {
-      ensure_installed = { "sumneko_lua" },
+      ensure_installed = {"sumneko_lua"}
     },
     packer = {
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
-    },
+      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua"
+    }
   },
-
   -- LuaSnip Options
   luasnip = {
     -- Add paths for including more VS Code style snippets in luasnip
     vscode_snippet_paths = {},
     -- Extend filetypes
     filetype_extend = {
-      javascript = { "javascriptreact" },
-    },
+      javascript = {"javascriptreact"}
+    }
   },
-
   -- Modify which-key registration
   ["which-key"] = {
     -- Add bindings
@@ -221,14 +215,10 @@ local config = {
       -- first key is the mode, n == normal mode
       n = {
         -- second key is the prefix, <leader> prefixes
-        ["<leader>"] = {
-          -- which-key registration table for normal mode, leader prefix
-          -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
-        },
-      },
-    },
+        ["<leader>"] = {}
+      }
+    }
   },
-
   -- CMP Source Priorities
   -- modify here the priorities of default cmp sources
   -- higher value == higher priority
@@ -240,16 +230,13 @@ local config = {
       nvim_lsp = 1000,
       luasnip = 750,
       buffer = 500,
-      path = 250,
-    },
+      path = 250
+    }
   },
-
   -- Extend LSP configuration
   lsp = {
     -- enable servers that you already have installed without lsp-installer
-    servers = {
-      -- "pyright"
-    },
+    servers = {},
     -- add to the server on_attach function
     -- on_attach = function(client, bufnr)
     -- end,
@@ -260,28 +247,13 @@ local config = {
     -- end,
 
     -- Add overrides for LSP server settings, the keys are the name of the server
-    ["server-settings"] = {
-      -- example for addings schemas to yamlls
-      -- yamlls = {
-      --   settings = {
-      --     yaml = {
-      --       schemas = {
-      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-      --       },
-      --     },
-      --   },
-      -- },
-    },
+    ["server-settings"] = {}
   },
-
   -- Diagnostics configuration (for vim.diagnostics.config({}))
   diagnostics = {
     virtual_text = true,
-    underline = true,
+    underline = true
   },
-
   -- This function is run last
   -- good place to configure mappings and vim options
   polish = function()
@@ -289,13 +261,16 @@ local config = {
     vim.keymap.set("n", "<C-s>", ":w!<CR>")
 
     -- Set autocommands
-    vim.api.nvim_create_augroup("packer_conf", { clear = true })
-    vim.api.nvim_create_autocmd("BufWritePost", {
-      desc = "Sync packer after modifying plugins.lua",
-      group = "packer_conf",
-      pattern = "plugins.lua",
-      command = "source <afile> | PackerSync",
-    })
+    vim.api.nvim_create_augroup("packer_conf", {clear = true})
+    vim.api.nvim_create_autocmd(
+      "BufWritePost",
+      {
+        desc = "Sync packer after modifying plugins.lua",
+        group = "packer_conf",
+        pattern = "plugins.lua",
+        command = "source <afile> | PackerSync"
+      }
+    )
 
     -- Set up custom filetypes
     -- vim.filetype.add {
@@ -309,7 +284,7 @@ local config = {
     --     ["~/%.config/foo/.*"] = "fooscript",
     --   },
     -- }
-  end,
+  end
 }
 
 return config
