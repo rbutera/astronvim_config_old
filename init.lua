@@ -11,7 +11,7 @@ local config = {
     "    ██   ████   ████   ██ ██      ██",
     " ",
     " ",
-    " "
+    " ",
   },
   -- Configure AstroNvim updates
   updater = {
@@ -22,7 +22,7 @@ local config = {
     commit = nil, -- commit hash (NIGHTLY ONLY)
     pin_plugins = true, -- true, false, or a string for a specific AstroNvim snapshot to use (true will only track the current version if channel is "stable")
     skip_prompts = false, -- skip prompts about breaking changes
-    show_changelog = true -- show the changelog after performing an update
+    show_changelog = true, -- show the changelog after performing an update
     -- remotes = { -- easily add new remotes to track
     --   ["remote_name"] = "https://remote_url.come/repo.git", -- full remote url
     --   ["remote2"] = "github_user/repo", -- GitHub user/repo shortcut,
@@ -34,24 +34,24 @@ local config = {
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
-      relativenumber = true -- sets vim.opt.relativenumber
+      relativenumber = true, -- sets vim.opt.relativenumber
     },
     g = {
-      mapleader = " " -- sets vim.g.mapleader
-    }
+      mapleader = " ", -- sets vim.g.mapleader
+    },
   },
   -- Default theme configuration
   default_theme = {
-    diagnostics_style = {italic = true},
+    diagnostics_style = { italic = true },
     -- Modify the color table
     colors = {
-      fg = "#abb2bf"
+      fg = "#abb2bf",
     },
     -- Modify the highlight groups
     highlights = function(highlights)
       local C = require "default_theme.colors"
 
-      highlights.Normal = {fg = C.fg, bg = C.bg}
+      highlights.Normal = { fg = C.fg, bg = C.bg }
       return highlights
     end,
     plugins = {
@@ -72,13 +72,13 @@ local config = {
       symbols_outline = false,
       telescope = true,
       vimwiki = false,
-      ["which-key"] = true
-    }
+      ["which-key"] = true,
+    },
   },
   -- Disable AstroNvim ui features
   ui = {
     nui_input = true,
-    telescope_select = true
+    telescope_select = true,
   },
   -- Configure plugins
   plugins = {
@@ -96,61 +96,99 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      { "lukas-reineke/indent-blankline.nvim" },
+      { "j-hui/fidget.nvim" },
+      -- { "MunifTanjim/nui.nvim" },
+      { "VonHeikemen/searchbox.nvim" },
+      {
+        "folke/twilight.nvim",
+        config = function()
+          require("twilight").setup {}
+        end,
+      },
+      {
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+          require("todo-comments").setup {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+          }
+        end,
+      },
+      {
+        "ghillb/cybu.nvim",
+        branch = "v1.x", -- won't receive breaking changes
+        -- branch = "main", -- timely updates
+        requires = { "kyazdani42/nvim-web-devicons" }, --optional
+        config = function()
+          local ok, cybu = pcall(require, "cybu")
+          if not ok then
+            return
+          end
+          cybu.setup()
+          vim.keymap.set("n", "K", "<Plug>(CybuPrev)")
+          vim.keymap.set("n", "J", "<Plug>(CybuNext)")
+          vim.keymap.set({ "n", "v" }, "<c-s-tab>", "<plug>(CybuLastusedPrev)")
+          vim.keymap.set({ "n", "v" }, "<c-tab>", "<plug>(CybuLastusedNext)")
+        end,
+      },
       {
         "catppuccin/nvim",
         as = "catppuccin",
         config = function()
           require("catppuccin").setup {}
-        end
+        end,
       },
       {
         "ur4ltz/surround.nvim",
         config = function()
-          require "surround".setup {
+          require("surround").setup {
             mappings_style = "surround",
-            quotes = {"'", '"', "`"}
+            quotes = { "'", '"', "`" },
           }
-        end
+        end,
       },
-      {"echasnovski/mini.nvim", branch = "stable"},
+      { "echasnovski/mini.nvim", branch = "stable" },
       {
         "lewis6991/hover.nvim",
         config = function()
           require("hover").setup {
             init = function()
               -- Require providers
-              require("hover.providers.lsp")
+              require "hover.providers.lsp"
               -- require('hover.providers.gh')
               -- require('hover.providers.man')
               -- require('hover.providers.dictionary')
             end,
             preview_opts = {
-              border = nil
+              border = nil,
             },
-            title = true
+            title = true,
           }
 
           -- Setup keymaps
-          vim.keymap.set("n", "gh", require("hover").hover, {desc = "hover.nvim"})
-          vim.keymap.set("n", "gH", require("hover").hover_select, {desc = "hover.nvim (select)"})
-        end
+          vim.keymap.set("n", "gh", require("hover").hover, { desc = "hover.nvim" })
+          vim.keymap.set("n", "gH", require("hover").hover_select, { desc = "hover.nvim (select)" })
+        end,
       },
       {
         "folke/trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
         config = function()
           require("trouble").setup {}
-        end
+        end,
       },
       {
-        "tpope/vim-repeat"
+        "tpope/vim-repeat",
       },
       {
-        "folke/lsp-colors.nvim"
+        "folke/lsp-colors.nvim",
       },
       {
-        "ggandor/lightspeed.nvim"
-      }
+        "ggandor/lightspeed.nvim",
+      },
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
@@ -163,12 +201,23 @@ local config = {
         -- null_ls.builtins.formatting.rufo,
         null_ls.builtins.formatting.autopep8,
         null_ls.builtins.formatting.eslint_d,
+        null_ls.builtins.code_actions.eslint_d,
+        null_ls.builtins.diagnostics.eslint_d,
+        null_ls.builtins.diagnostics.flake8,
+        null_ls.builtins.diagnostics.luacheck,
+        null_ls.builtins.diagnostics.mypy,
+        null_ls.builtins.code_actions.shellcheck,
+        null_ls.builtins.completion.tags,
         null_ls.builtins.formatting.markdownlint,
         null_ls.builtins.formatting.prettierd,
         null_ls.builtins.formatting.terrafmt,
         null_ls.builtins.formatting.terraform_fmt,
         null_ls.builtins.formatting.gofumpt,
-        null_ls.builtins.formatting.lua_format
+        null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.diagnostics.tsc,
+        null_ls.builtins.formatting.black.with { extra_args = { "--fast" } },
+        null_ls.builtins.formatting.isort,
+        null_ls.builtins.formatting.stylua,
 
         -- Set a linter
         -- null_ls.builtins.diagnostics.rubocop,
@@ -177,27 +226,24 @@ local config = {
       config.on_attach = function(client)
         -- NOTE: You can remove this on attach function to disable format on save
         if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_create_autocmd(
-            "BufWritePre",
-            {
-              desc = "Auto format before save",
-              pattern = "<buffer>",
-              callback = vim.lsp.buf.formatting_sync
-            }
-          )
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            desc = "Auto format before save",
+            pattern = "<buffer>",
+            callback = vim.lsp.buf.formatting_sync,
+          })
         end
       end
       return config -- return final config table
     end,
     treesitter = {
-      ensure_installed = {"lua"}
+      ensure_installed = { "lua" },
     },
     ["nvim-lsp-installer"] = {
-      ensure_installed = {"sumneko_lua"}
+      ensure_installed = { "sumneko_lua" },
     },
     packer = {
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua"
-    }
+      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
+    },
   },
   -- LuaSnip Options
   luasnip = {
@@ -205,8 +251,8 @@ local config = {
     vscode_snippet_paths = {},
     -- Extend filetypes
     filetype_extend = {
-      javascript = {"javascriptreact"}
-    }
+      javascript = { "javascriptreact" },
+    },
   },
   -- Modify which-key registration
   ["which-key"] = {
@@ -215,9 +261,9 @@ local config = {
       -- first key is the mode, n == normal mode
       n = {
         -- second key is the prefix, <leader> prefixes
-        ["<leader>"] = {}
-      }
-    }
+        ["<leader>"] = {},
+      },
+    },
   },
   -- CMP Source Priorities
   -- modify here the priorities of default cmp sources
@@ -230,8 +276,8 @@ local config = {
       nvim_lsp = 1000,
       luasnip = 750,
       buffer = 500,
-      path = 250
-    }
+      path = 250,
+    },
   },
   -- Extend LSP configuration
   lsp = {
@@ -247,12 +293,12 @@ local config = {
     -- end,
 
     -- Add overrides for LSP server settings, the keys are the name of the server
-    ["server-settings"] = {}
+    ["server-settings"] = {},
   },
   -- Diagnostics configuration (for vim.diagnostics.config({}))
   diagnostics = {
     virtual_text = true,
-    underline = true
+    underline = true,
   },
   -- This function is run last
   -- good place to configure mappings and vim options
@@ -261,16 +307,13 @@ local config = {
     vim.keymap.set("n", "<C-s>", ":w!<CR>")
 
     -- Set autocommands
-    vim.api.nvim_create_augroup("packer_conf", {clear = true})
-    vim.api.nvim_create_autocmd(
-      "BufWritePost",
-      {
-        desc = "Sync packer after modifying plugins.lua",
-        group = "packer_conf",
-        pattern = "plugins.lua",
-        command = "source <afile> | PackerSync"
-      }
-    )
+    vim.api.nvim_create_augroup("packer_conf", { clear = true })
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      desc = "Sync packer after modifying plugins.lua",
+      group = "packer_conf",
+      pattern = "plugins.lua",
+      command = "source <afile> | PackerSync",
+    })
 
     -- Set up custom filetypes
     -- vim.filetype.add {
@@ -284,7 +327,7 @@ local config = {
     --     ["~/%.config/foo/.*"] = "fooscript",
     --   },
     -- }
-  end
+  end,
 }
 
 return config
