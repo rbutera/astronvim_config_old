@@ -189,15 +189,6 @@ local config = {
       {
         "ggandor/lightspeed.nvim",
       },
-      {
-        "jayli/vim-easycomplete",
-      },
-      {
-        "SirVer/ultisnips",
-      },
-      {
-        "codota/tabnine-vim",
-      },
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
