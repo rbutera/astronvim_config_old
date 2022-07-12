@@ -102,9 +102,7 @@ local config = {
       { "VonHeikemen/searchbox.nvim" },
       {
         "folke/twilight.nvim",
-        config = function()
-          require("twilight").setup {}
-        end,
+        config = function() require("twilight").setup {} end,
       },
       {
         "folke/todo-comments.nvim",
@@ -124,9 +122,7 @@ local config = {
         requires = { "kyazdani42/nvim-web-devicons" }, --optional
         config = function()
           local ok, cybu = pcall(require, "cybu")
-          if not ok then
-            return
-          end
+          if not ok then return end
           cybu.setup()
           vim.keymap.set("n", "K", "<Plug>(CybuPrev)")
           vim.keymap.set("n", "J", "<Plug>(CybuNext)")
@@ -137,9 +133,7 @@ local config = {
       {
         "catppuccin/nvim",
         as = "catppuccin",
-        config = function()
-          require("catppuccin").setup {}
-        end,
+        config = function() require("catppuccin").setup {} end,
       },
       {
         "ur4ltz/surround.nvim",
@@ -176,9 +170,7 @@ local config = {
       {
         "folke/trouble.nvim",
         requires = "kyazdani42/nvim-web-devicons",
-        config = function()
-          require("trouble").setup {}
-        end,
+        config = function() require("trouble").setup {} end,
       },
       {
         "tpope/vim-repeat",
@@ -188,6 +180,15 @@ local config = {
       },
       {
         "ggandor/lightspeed.nvim",
+      },
+      {
+        "kyazdani42/nvim-web-devicons",
+      },
+      {
+        "nvim-lua/plenary.nvim",
+      },
+      {
+        "windwp/nvim-spectre",
       },
     },
     -- All other entries override the setup() call for default plugins
