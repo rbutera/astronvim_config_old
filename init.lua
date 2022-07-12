@@ -306,6 +306,9 @@ local config = {
   polish = function()
     -- Set key bindings
     vim.keymap.set("n", "<C-s>", ":w!<CR>")
+    vim.keymap.set("n", "<leader>o", "o<Esc>k")
+    vim.keymap.set("n", "<leader>O", "O<Esc>j")
+    vim.keymap.set({ "n", "v" }, "<leader>yj", "y'>o<Esc>p")
 
     -- Set autocommands
     vim.api.nvim_create_augroup("packer_conf", { clear = true })
