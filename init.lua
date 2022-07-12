@@ -310,6 +310,10 @@ local config = {
     vim.keymap.set("n", "<leader>O", "O<Esc>j")
     vim.keymap.set({ "n", "v" }, "<leader>yj", "y'>o<Esc>p")
 
+    -- for spectre
+    vim.keymap.set("n", "<leader>S", function() require("spectre").open() end)
+    -- search current word
+    vim.keymap.set("n", "<leader>sw", function() require("spectre").open_visual { select_word = true } end)
     -- Set autocommands
     vim.api.nvim_create_augroup("packer_conf", { clear = true })
     vim.api.nvim_create_autocmd("BufWritePost", {
