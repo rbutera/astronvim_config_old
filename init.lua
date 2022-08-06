@@ -69,7 +69,7 @@ local config = {
       ["nvim-tree"] = false,
       ["nvim-web-devicons"] = true,
       rainbow = true,
-      symbols_outline = false,
+      symbols_outline = true,
       telescope = true,
       vimwiki = false,
       ["which-key"] = true,
@@ -100,10 +100,6 @@ local config = {
       { "j-hui/fidget.nvim" },
       -- { "MunifTanjim/nui.nvim" },
       { "VonHeikemen/searchbox.nvim" },
-      {
-        "folke/twilight.nvim",
-        config = function() require("twilight").setup {} end,
-      },
       {
         "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
@@ -152,9 +148,9 @@ local config = {
             init = function()
               -- Require providers
               require "hover.providers.lsp"
-              -- require('hover.providers.gh')
-              -- require('hover.providers.man')
-              -- require('hover.providers.dictionary')
+              require "hover.providers.gh"
+              require "hover.providers.man"
+              require "hover.providers.dictionary"
             end,
             preview_opts = {
               border = nil,
@@ -179,16 +175,11 @@ local config = {
         "folke/lsp-colors.nvim",
       },
       {
-        "ggandor/lightspeed.nvim",
-      },
-      {
-        "kyazdani42/nvim-web-devicons",
-      },
-      {
         "nvim-lua/plenary.nvim",
       },
       {
-        "windwp/nvim-spectre",
+        "ggandor/leap.nvim",
+        config = function() require("leap").set_default_keymaps() {} end,
       },
     },
     -- All other entries override the setup() call for default plugins
@@ -200,11 +191,11 @@ local config = {
       config.sources = {
         -- Set a formatter
         -- null_ls.builtins.formatting.rufo,
-        null_ls.builtins.formatting.autopep8,
+        -- null_ls.builtins.formatting.autopep8,
         null_ls.builtins.formatting.eslint_d,
         null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.formatting.flake8,
+        -- null_ls.builtins.formatting.flake8,
         null_ls.builtins.diagnostics.luacheck,
         null_ls.builtins.diagnostics.mypy,
         null_ls.builtins.code_actions.shellcheck,
@@ -219,6 +210,7 @@ local config = {
         null_ls.builtins.formatting.black.with { extra_args = { "--fast" } },
         null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.stylua,
+        null_ls.builtins.diagnostics.pylint,
 
         -- Set a linter
         -- null_ls.builtins.diagnostics.rubocop,
